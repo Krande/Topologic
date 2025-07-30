@@ -20,11 +20,11 @@ pytest = ">=7.0.0"
 libuuid = "*"
 
 [tasks]
-configure = { cmd = "cmake -B build -S . -DUSE_CONDA_PYBIND11=ON -G Ninja" }
+configure = { cmd = "cmake -B build -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_BUILD_TYPE=Release -G Ninja" }
 build = { cmd = "cmake --build build" }
 install = { cmd = "cmake --install build --prefix $CONDA_PREFIX" }
 test = { cmd = "pytest TopologicPythonBindings/test" }
 
-debug-configure = { cmd = "cmake -B build-debug -S . -DUSE_CONDA_PYBIND11=ON -G Ninja" }
+debug-configure = { cmd = "cmake -B build-debug -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_BUILD_TYPE=Debug -G Ninja" }
 debug-build = { cmd = "cmake --build build-debug" }
 debug-install = { cmd = "cmake --install build-debug --prefix $CONDA_PREFIX" }

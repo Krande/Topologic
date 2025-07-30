@@ -29,9 +29,13 @@ def test_vertex_edges():
     e1 = Edge.ByStartVertexEndVertex(v1, v2)
     e2 = Edge.ByStartVertexEndVertex(v1, v3)
 
+    # Create a cluster to serve as the host topology
+    from topologic_core import Cluster
+    cluster = Cluster.ByTopologies([e1, e2])
+
     # Get edges from v1
     edges = []
-    v1.Edges(v1, edges)
+    v1.Edges(cluster, edges)
 
     # Check if we got the expected number of edges
     assert len(edges) == 2
