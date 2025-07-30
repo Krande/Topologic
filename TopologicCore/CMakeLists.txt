@@ -266,26 +266,35 @@ endif()
 # install definitions
 if(WIN32)
     install(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION Library/bin
+        LIBRARY DESTINATION Library/lib
+        ARCHIVE DESTINATION Library/lib
         COMPONENT ${PROJECT_NAME}
+    )
+    install(FILES ${TOPOLOGICCORE_H_FILES}
+            DESTINATION Library/include/${PROJECT_NAME}
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
+    install(FILES ${TOPOLOGICCORE_UTILITIES_H_FILES}
+            DESTINATION Library/include/${PROJECT_NAME}/Utilities
+            COMPONENT ${PROJECT_NAME}_Headers
     )
 else()
     install(TARGETS ${PROJECT_NAME}
         DESTINATION lib/${PROJECT_NAME}
         COMPONENT ${PROJECT_NAME}
     )
+    install(FILES ${TOPOLOGICCORE_H_FILES}
+            DESTINATION include/${PROJECT_NAME}
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
+    install(FILES ${TOPOLOGICCORE_UTILITIES_H_FILES}
+            DESTINATION include/${PROJECT_NAME}/Utilities
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
 endif()
 
-install(FILES ${TOPOLOGICCORE_H_FILES}
-        DESTINATION include/${PROJECT_NAME}
-        COMPONENT ${PROJECT_NAME}_Headers
-        )
-install(FILES ${TOPOLOGICCORE_UTILITIES_H_FILES}
-        DESTINATION include/${PROJECT_NAME}/Utilities
-        COMPONENT ${PROJECT_NAME}_Headers
-        )
+
 
 
 
