@@ -1,5 +1,6 @@
 # manual build and install dirs
 build/
+build-debug/
 build-conda/
 install-conda/
 build-vcpkg/

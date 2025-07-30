@@ -1,5 +1,3 @@
-import pytest
-
 def test_dictionary():
     """Test creating and using a Dictionary with various attribute types."""
     from topologic_core import Vertex, Dictionary, IntAttribute, DoubleAttribute, StringAttribute

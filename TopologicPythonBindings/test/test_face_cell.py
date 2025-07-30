@@ -1,6 +1,3 @@
-import pytest
-import os
-
 def test_face_creation():
     """Test creation of a Face from a Wire."""
     from topologic_core import Vertex, Edge, Wire, Face
@@ -28,7 +25,7 @@ def test_face_creation():
 
 def test_cell_creation():
     """Test creation of a Cell from Faces."""
-    from topologic_core import Vertex, Edge, Wire, Face, Cell, Topology
+    from topologic_core import Vertex, Edge, Wire, Face, Cell
 
     # Create vertices for a cube
     v1 = Vertex.ByCoordinates(0, 0, 0)

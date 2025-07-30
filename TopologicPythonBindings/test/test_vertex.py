@@ -1,6 +1,3 @@
-import pytest
-import sys
-
 def test_vertex_creation():
     """Test creation of a Vertex by coordinates."""
     from topologic_core import Vertex

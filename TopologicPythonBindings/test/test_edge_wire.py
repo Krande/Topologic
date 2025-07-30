@@ -1,5 +1,3 @@
-import pytest
-
 def test_edge_creation():
     """Test creation of an Edge from two vertices."""
     from topologic_core import Vertex, Edge

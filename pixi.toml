@@ -24,7 +24,9 @@ configure = { cmd = "cmake -B build -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_BUILD_T
 build = { cmd = "cmake --build build" }
 install = { cmd = "cmake --install build --prefix $CONDA_PREFIX" }
 test = { cmd = "pytest TopologicPythonBindings/test" }
+test-all = { cmd = "pytest TopologicPythonBindings/test", depends-on = ["configure", "build", "install"] }
 
 debug-configure = { cmd = "cmake -B build-debug -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_BUILD_TYPE=Debug -G Ninja" }
 debug-build = { cmd = "cmake --build build-debug" }
 debug-install = { cmd = "cmake --install build-debug --prefix $CONDA_PREFIX" }
+debug-test-all = { cmd = "pytest TopologicPythonBindings/test", depends-on = ["debug-configure", "debug-build", "debug-install"] }
