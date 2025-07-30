@@ -65,10 +65,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAMESPACE}::TopologicCor
 
 
 # install definitions
-install(TARGETS ${PROJECT_NAME}
-        DESTINATION lib/${PROJECT_NAME}
-        COMPONENT ${PROJECT_NAME}
-        )
+if(WIN32)
+    install(TARGETS ${PROJECT_NAME}
+            DESTINATION DLLs
+            COMPONENT ${PROJECT_NAME}
+            )
+else()
+    install(TARGETS ${PROJECT_NAME}
+            DESTINATION lib/${PROJECT_NAME}
+            COMPONENT ${PROJECT_NAME}
+            )
+endif()
 
 # set install rpaths to origin if TopologicCore is built as a shared lib
 # in this case TopologicCore is expected to be copied into the TopologicPythonBindings install dir post-install

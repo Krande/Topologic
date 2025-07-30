@@ -264,10 +264,20 @@ endif()
 
 
 # install definitions
-install(TARGETS ${PROJECT_NAME}
+if(WIN32)
+    install(TARGETS ${PROJECT_NAME}
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        COMPONENT ${PROJECT_NAME}
+    )
+else()
+    install(TARGETS ${PROJECT_NAME}
         DESTINATION lib/${PROJECT_NAME}
         COMPONENT ${PROJECT_NAME}
-        )
+    )
+endif()
+
 install(FILES ${TOPOLOGICCORE_H_FILES}
         DESTINATION include/${PROJECT_NAME}
         COMPONENT ${PROJECT_NAME}_Headers
