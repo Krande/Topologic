@@ -67,14 +67,43 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAMESPACE}::TopologicCor
 # install definitions
 if(WIN32)
     install(TARGETS ${PROJECT_NAME}
-            DESTINATION DLLs
-            COMPONENT ${PROJECT_NAME}
-            )
+        DESTINATION DLLs
+        COMPONENT ${PROJECT_NAME}
+    )
+
+    # Install PDB files for debug builds on Windows
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND build_library_type STREQUAL SHARED)
+        install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
+                DESTINATION Library/bin
+                COMPONENT ${PROJECT_NAME}
+                OPTIONAL)
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Debug" AND build_library_type STREQUAL STATIC)
+        install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
+                DESTINATION Library/lib
+                COMPONENT ${PROJECT_NAME}
+                OPTIONAL)
+    endif()
+    install(FILES ${TOPOLOGICCORE_H_FILES}
+            DESTINATION Library/include/${PROJECT_NAME}
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
+    install(FILES ${TOPOLOGICCORE_UTILITIES_H_FILES}
+            DESTINATION Library/include/${PROJECT_NAME}/Utilities
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
 else()
     install(TARGETS ${PROJECT_NAME}
-            DESTINATION lib/${PROJECT_NAME}
-            COMPONENT ${PROJECT_NAME}
-            )
+        DESTINATION lib/${PROJECT_NAME}
+        COMPONENT ${PROJECT_NAME}
+    )
+    install(FILES ${TOPOLOGICCORE_H_FILES}
+            DESTINATION include/${PROJECT_NAME}
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
+    install(FILES ${TOPOLOGICCORE_UTILITIES_H_FILES}
+            DESTINATION include/${PROJECT_NAME}/Utilities
+            COMPONENT ${PROJECT_NAME}_Headers
+    )
 endif()
 
 # set install rpaths to origin if TopologicCore is built as a shared lib
@@ -91,8 +120,24 @@ if (${TopologicCore_TARGET_TYPE} STREQUAL SHARED_LIBRARY)
     endif()
 endif()
 
+# Add debug-specific compiler flags for better debugging experience
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(MSVC)
+        target_compile_options(${PROJECT_NAME} PRIVATE 
+            /Od          # Disable optimizations
+            /Zi          # Generate complete debugging information  
+            /RTC1        # Runtime checks
+        )
+        target_link_options(${PROJECT_NAME} PRIVATE 
+            /DEBUG:FULL  # Generate full debug info
+        )
+    endif()
+    # Disable LTO for debug builds
+    set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION False)
+endif()
+
 
 
 
 #include(CMakePrintHelpers)
-#cmake_print_properties(TARGETS ${PROJECT_NAME} PROPERTIES TYPE POSITION_INDEPENDENT_CODE LINK_LIBRARIES LINK_INTERFACE_LIBRARIES INTERFACE_LINK_LIBRARIES INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE INTERFACE_COMPILE_DEFINITIONS INTERFACE_INCLUDE_DIRECTORIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES INCLUDE_DIRECTORIES INSTALL_RPATH)
+#cmake_print_properties(TARGETS ${PROJECT_NAME} PROPERTIES TYPE POSITION_INDEPENDENT_CODE LINK_LIBRARIES LINK_INTERFACE_LIBRARIES INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE INTERFACE_COMPILE_DEFINITIONS INTERFACE_INCLUDE_DIRECTORIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES INCLUDE_DIRECTORIES INSTALL_RPATH)

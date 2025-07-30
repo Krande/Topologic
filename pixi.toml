@@ -7,8 +7,8 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "win-64", "osx-64"]
 
 [dependencies]
-python = ">=3.8"
-occt = "==7.8.0"
+python = "3.12.*"
+occt = "==7.8.1"
 cxx-compiler = "*"
 cmake = ">=3.24"
 ninja = "*"
@@ -23,10 +23,12 @@ libuuid = "*"
 configure = { cmd = "cmake -B build -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_BUILD_TYPE=Release -G Ninja" }
 build = { cmd = "cmake --build build" }
 install = { cmd = "cmake --install build --prefix $CONDA_PREFIX" }
+install-dev = { cmd = "cmake --install build", depends-on = ["configure", "build"] }  # Install files to your desired env using --prefix
 test = { cmd = "pytest TopologicPythonBindings/test" }
 test-all = { cmd = "pytest TopologicPythonBindings/test", depends-on = ["configure", "build", "install"] }
 
 debug-configure = { cmd = "cmake -B build-debug -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_BUILD_TYPE=Debug -G Ninja" }
 debug-build = { cmd = "cmake --build build-debug" }
 debug-install = { cmd = "cmake --install build-debug --prefix $CONDA_PREFIX" }
+debug-install-dev = { cmd = "cmake --install build-debug", depends-on=["debug-configure", "debug-build"] }  # Install files to your desired env using --prefix
 debug-test-all = { cmd = "pytest TopologicPythonBindings/test", depends-on = ["debug-configure", "debug-build", "debug-install"] }
