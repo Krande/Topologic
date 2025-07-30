@@ -1,0 +1,28 @@
+[project]
+name = "topologic"
+version = "6.0.0"
+description = "A software modelling library enabling hierarchical and topological representations of architectural spaces, buildings and artefacts through non-manifold topology"
+authors = []
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-64"]
+
+[dependencies]
+python = ">=3.8"
+occt = "==7.8.0"
+cxx-compiler = "*"
+cmake = ">=3.24"
+ninja = "*"
+pybind11 = "==2.13.0"
+scipy = "*"
+
+[target.linux-64.dependencies]
+libuuid = "*"
+
+[tasks]
+configure = { cmd = "cmake -B build -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_PREFIX_PATH=$PIXI_HOME/envs/default/Library -G Ninja" }
+build = { cmd = "cmake --build build" }
+install = { cmd = "cmake --install build" }
+
+debug-configure = { cmd = "cmake -B build-debug -S . -DUSE_CONDA_PYBIND11=ON -DCMAKE_PREFIX_PATH=$PIXI_HOME/envs/default/Library -G Ninja" }
+debug-build = { cmd = "cmake --build build-debug" }
+debug-install = { cmd = "cmake --install build-debug" }
